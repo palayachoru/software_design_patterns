@@ -94,3 +94,24 @@ HINT:
 
 OBSERVER PATTERN
 ================
+- works similar to Publisher-Subscriber model
+- if the objects are subscribed to a publisher(subject) and if it changes
+   a notification is sent to all the subscribers(observers)
+- defined as One-to-Many relationship b/w set of objects, so when the state of
+   the object changes all the dependent objects are notified/updated
+
+Loose coupling:
+- two objects can interact but know less about each other
+ie.
+  - modifying one don't impact other object
+  - 
+
+HINT:
+* always try to go for loosely coupled designs b/w objects that interact
+
+
+---
+
+
+DECORATING PATTERN
+===================
