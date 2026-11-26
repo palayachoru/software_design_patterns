@@ -1,117 +1,141 @@
 DESIGN PATTERNS (Building Extensible Object-Oriented Software)
---------------------------------------------------------------
+==============================================================
 
-STRATEGY PATTERN
-================
+##### Inheritance:
+* is a OOPs feature, in which the child/subclass automatically retrieves attributes
+    and methods from an existing class
+* answers 'is-a' relationship
+* EX: class A is a parent of class B
 
-Using Inheritance:
-------------------
+##### Composition:
+* is a design principle(guideline to follow), in which an class extends it's
+    functionality by containing instance of other class rather than inheriting it
+* answers 'has-a' relationship
+* EX: class A has class B's functionality
+
+
+
+SOFTWARE DESIGN PATTERNS
+=========================
+GOAL: as the code base grows, how to Structure, Extent & Maintain the code
+
+Patterns are categorized into three categories,
+1. Creational patterns (how objects are created)
+2. Structural patterns (how objects are organized in larger structure)
+3. Behavioral patterns (how objects communicate and share responsibility)
+    1. Strategy
+    2. Observer
+ 
+
+
+Strategy Pattern
+----------------
+- define multiple behaviours, put each in a class => based on need,
+   the object uses these behaviours
+
+```python
+from abc import ABC, abstractmethod
+
+# Strategy Abstract Class
+class Payment(ABC):
+  @abstractmethod
+  def pay(self, amount:int): ...
+
+# Strategy Implementation Class (behaviours)
+class UPIPayment(Payment):
+  def pay(self, amount:int):
+    print(f"Amount {amount} received by UPI payment")
+
+class CardPayment(Payment):
+  def pay(self, amount:int):
+    print(f"Amount {amount} received by Card payment")
+
+class CashPayment(Payment):
+  def pay(self, amount:int):
+    print(f"Amount {amount} received by Cash payment")
+
+# Context
+class ShoppingCart:
+  def __init__(self, payment_type:Payment):
+    self.payment_type = payment_type
+
+  def checkout(self, total:int):
+    self.payment_type.pay(total)
+
+
+# Usage (based on needs, behaviour is replaced)
+user1 = ShoppingCart(UPIPayment())
+user1.checkout()
+
+user2 = ShoppingCart(CardPayment())
+user2.checkout()
+
+# duckA.py: using inheritance, try to mimic this pattern
+# duckB.py: using interface, behaviour in individual class
+# duckC.py: using interface, behaviour as separate class (added to individual class)
 ```
-Duck Class
- |- Mallard Duck
- |- Redhead Duck
- |- Rubber Duck
- |- Wooden Duck
 
-(refer duckA.py)
+
+
+Observer Pattern
+----------------
+- Uses Publisher-Subscriber model
+- Publisher/Subject Object: object which is monitored and publishes update
+- Observing Object        : objects that are subscribed to publisher objects
+- all objects which are subscribed will be notified 
+   about any events that happen to the object they are observing
+
+```python
+# Observer Interface
+class Observer(ABC):
+  @abstractmethod
+  def sent_notification(self, channel:str, video:str): ...
+
+# Subject/Publisher Interface
+class Subject(ABC):
+  @abstractmethod
+  def register_observer(self, observer:Observer): ...
+
+  @abstractmethod
+  def unregister_observer(self, observer:Observer): ...
+
+  @abstractmethod
+  def notify_observer(self, video:str): ...
+
+# Subject Class
+class YouTubeChannel(Subject):
+  def __init__(self, name:str):
+    self.name = name
+    self._observers = []
+
+  def register_observer(self, observer:Observer):
+    self._observers.append(observer)
+
+  def unregister_observer(self, observer:Observer):
+    self._observer.remove(observer)
+
+  def notify_observer(self, video:str):
+    for observer in self._observers:
+      observer.sent_notification(self.name, video)
+
+# Observer Class
+class YouTubeUser(Observer):
+  def __init__(self, name:str):
+    self.name = name
+
+  def sent_notification(self, channel:str, video:str):
+    print(f"New Video {video} for channel {channel}")
+
+# -------------------------------------------------------------------
+channel = YouTubeChannel('ElectroBoom')
+
+ramu = YouTubeUser('Ramu')
+somu = YouTubeUser('Somu')
+
+channel.register_observer(rame)
+channel.register_observer(somu)
+
+channel.notify_observer('How to make Tesla Generator?')
+
+# weather_station.py: implements observer pattern
 ```
- Problems with this approach
- * if base class has a method, then if the subclass need it or not -- it will be inherited
- * in case if subclass don't needs a method, then need to manually override it
- * maintaining a large number of manual override is error prone
-
-
-Using Interface + logic in individual class
---------------------------------------------
-```
-Interface:
-Fly
-Sound
-
-Base Class:
-Duck
-
-MallardDuck(Duck, Fly)
-RubberDuck(Duck, Sound)
-
-(refer duckB.py)
-```
-- interface don't provide behaviour to class that inherits it
-- individual class has to define it's behaviour
-- idea of interface is to make promise that the inherited class has that method
-
-Problems with this approach
-* if two subclass has similar Fly behaviour, then code repetition happens
-* No code reusability with this approach
-* if need to modify a behaviour, then need to track down all subclass that
-  has that behaviour and modify it - which is error prone
-
-
-
-Using Interface + logic in separate class (as behaviour)
---------------------------------------------------------
-```
-Interface:
-FlyBehaviour
-Sound
-
-Behaviour Implementation:
-FlywithWings(FlyBehaviour)
-NoFly(FlyBehaviour)
-QuackSound(Sound)
-
-Base Class:
-Duck(flybehaviour, sound)
-
-
-MallardDuck(Duck)
-  init(FlywithWing(), QuackSound())
-
-(refer duckC.py)
-```
-- the behaviour is taken out of the class and added to class based on needed
-- in case a class don't need it, just remove it
-- and if we need to modify a behaviour, it's easy to vary and all class that
-   uses the behaviour get updated
-- easy to maintain and update the code based on varying requirement
-- this way of using other classes with in another class is called 'Composition'
-
-- using this approach, we can dynamically alter or add new behaviour to a class
-- that's why this approach/pattern is called "Strategy Pattern"
-
-###### Strategy Pattern
-- defines a family of algorithm(behaviour) that can be interchangeable
-- so define a task separately from where it's used and the object use these tasks
-   based on requirement without defining in each object
-
-
-HINT:
-* always try to use Composition over Inheritance
-
-
----
-
-
-OBSERVER PATTERN
-================
-- works similar to Publisher-Subscriber model
-- if the objects are subscribed to a publisher(subject) and if it changes
-   a notification is sent to all the subscribers(observers)
-- defined as One-to-Many relationship b/w set of objects, so when the state of
-   the object changes all the dependent objects are notified/updated
-
-Loose coupling:
-- two objects can interact but know less about each other
-ie.
-  - modifying one don't impact other object
-  - 
-
-HINT:
-* always try to go for loosely coupled designs b/w objects that interact
-
-
----
-
-
-DECORATING PATTERN
-===================
