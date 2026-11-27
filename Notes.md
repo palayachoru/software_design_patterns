@@ -22,6 +22,7 @@ GOAL: as the code base grows, how to Structure, Extent & Maintain the code
 Patterns are categorized into three categories,
 1. Creational patterns (how objects are created)
 2. Structural patterns (how objects are organized in larger structure)
+    1. Decorator
 3. Behavioral patterns (how objects communicate and share responsibility)
     1. Strategy
     2. Observer
@@ -139,3 +140,30 @@ channel.notify_observer('How to make Tesla Generator?')
 
 # weather_station.py: implements observer pattern
 ```
+
+
+
+Decorator Pattern
+-----------------
+- used to attach multiple behaviours to the object
+- both strategy and decorator pattern attaches behaviours to a object
+- it comes under structural pattern instead of behavioral pattern as it help to 
+    structure the code in layers
+
+Strategy Vs Decorator Pattern:
+- the difference is that
+  - strategy pattern swaps a behaviours with another
+  - decorator pattern stacks multiple behaviours on top of another (like layers)
+
+```python
+# starbucks.py
+```
+
+
+
+
+
+REMEMBER:
+---------
+* Prefer Composition over Inheritance
+* Classes should be open for extension but closed for modification

@@ -1,0 +1,21 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+
+# Distribution and builds
+build/
+dist/
+*.egg-info/
+
+# Testing and coverage
+.coverage
+.pytest_cache/
+
+# Local secrets and config
+*.env
