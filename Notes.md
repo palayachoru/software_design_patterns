@@ -21,6 +21,8 @@ GOAL: as the code base grows, how to Structure, Extent & Maintain the code
 
 Patterns are categorized into three categories,
 1. Creational patterns (how objects are created)
+    1. Factory
+    2. Singleton
 2. Structural patterns (how objects are organized in larger structure)
     1. Decorator
 3. Behavioral patterns (how objects communicate and share responsibility)
@@ -160,6 +162,28 @@ Strategy Vs Decorator Pattern:
 ```
 
 
+
+Factory Pattern
+----------------
+
+
+
+Singleton Pattern
+------------------
+- ensures an class has only one object instance in memory at any given time
+
+Appplications:
+ - hold the configurations of an app
+ - hold critical data, that is utilized by entire app
+
+- to implement this, 2 ways in python
+  1. using module: create a class & initialize it, then import the initialize instance 
+                   (python ensures modules are always initialized once)
+  2. using MetaClass to restrict multiple instance creation
+
+```python
+# boiler.py (uses metaclass approach)
+```
 
 
 
